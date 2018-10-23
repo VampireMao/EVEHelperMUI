@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<div class="mui-content mui-content-padded">
+			<ul class="mui-table-view">
+
+			</ul>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				var itemD = JSON.parse(self.data);
+				var ul = mui("ul")[0];
+				mui.each(itemD, function(i) {
+					var li = document.createElement("li");
+					li.setAttribute("class", "mui-table-view-cell mui-media");
+					li.setAttribute("typeID", itemD[i].TypeID);
+					li.setAttribute("pic", "https://imageserver.eveonline.com/Type/" + itemD[i].TypeID + "_64.png");
+					li.setAttribute("minSell", itemD[i].MinSell);
+					li.setAttribute("maxBuy", itemD[i].MaxBuy);
+					li.setAttribute("miaoSu", itemD[i].MiaoSu);
+
+					var a = document.createElement("a");
+					a.setAttribute("href", "javascript:;");
+
+					var img = document.createElement("img");
+					img.setAttribute("class", "mui-media-object mui-pull-left");
+					img.setAttribute("src", "https://imageserver.eveonline.com/Type/" + itemD[i].TypeID + "_64.png");
+					a.appendChild(img);
+
+					var div = document.createElement("div");
+					div.setAttribute("class", "mui-media-body mui-navigate-right");
+					div.innerText = itemD[i].Name;
+					a.appendChild(div);
+
+					var p1 = document.createElement("p");
+					p1.setAttribute("class", "mui-ellipsis");
+					p1.innerText = "出售价：" + itemD[i].MinSell;
+					div.appendChild(p1);
+
+					var p2 = document.createElement("p");
+					p2.setAttribute("class", "mui-ellipsis");
+					p2.innerText = "收购价：" + itemD[i].MaxBuy;
+					div.appendChild(p2);
+
+					li.appendChild(a);
+					ul.appendChild(li);
+				});
+
+				mui("ul").on("tap", "li", function() {
+					var typeID = this.getAttribute("typeID");
+					var pic = this.getAttribute("pic");
+					var minSell = this.getAttribute("minSell");
+					var maxBuy = this.getAttribute("maxBuy");
+					var miaoSu = this.getAttribute("miaoSu");
+
+					mui.openWindow({
+						url: "../subpages/item.html",
+						id: "item",
+						extras: {
+							typeID: typeID,
+							pic: pic,
+							minSell: minSell,
+							maxBuy: maxBuy,
+							miaoSu: miaoSu
+						}
+					});
+				});
+			});
+		</script>
+	</body>
+
+</html>

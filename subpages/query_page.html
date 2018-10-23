@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<div class="mui-input-group mui-content-padded">
+				<div class="mui-input-row">
+
+					<input type="text" id="itemName" class="mui-input-clear" placeholder="请输入物品名称" />
+				</div>
+				<div class="mui-button-row">
+					<button type="button" id="item" class="mui-btn mui-btn-primary">查询</button>
+				</div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.plusReady(function() {
+				var itemName = mui("#itemName")[0];
+
+				mui(".mui-button-row").on("tap", "#item", function() {
+					mui.post("https://www.cqhaokai.com/systemwx/home/index/", {
+						name: itemName.value
+					}, function(data) {
+						if(data.MessageType == 0) {
+							mui.openWindow({
+								url: "../subpages/itemD.html",
+								id: "itemD",
+								extras: {
+									data: data.Message
+								}
+							});
+						} else {
+							mui.toast(data.Message);
+						}
+					}, 'json');
+				});
+			});
+		</script>
+	</body>
+
+</html>
